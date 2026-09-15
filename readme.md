@@ -12,46 +12,46 @@
 
 ## 📌 Descripción
 
-**Sistema de Votaciones** es una aplicación web desarrollada como proyecto académico para implementar un sistema de autenticación, gestión de usuarios, perfiles y procesos relacionados con votaciones.
+**Sistema de Votaciones Web** es una aplicación desarrollada como proyecto académico para implementar un sistema de autenticación, gestión de usuarios, perfiles y funcionalidades relacionadas con procesos de votación.
 
-El proyecto utiliza una arquitectura basada en **Node.js + Express**, con **Sequelize** como ORM para la comunicación con **MySQL** y **EJS** para la generación de las interfaces web.
+El proyecto está construido sobre una arquitectura basada en **Node.js + Express**, utilizando **Sequelize** como ORM para la comunicación con **MySQL** y **EJS** como motor de plantillas para las interfaces web.
 
-Entre sus principales funcionalidades se encuentran:
+### ✨ Funcionalidades
 
 * 🔐 Registro e inicio de sesión de usuarios.
-* 👤 Gestión de perfiles.
-* 🛡️ Sistema de roles.
+* 👤 Gestión y edición de perfiles.
+* 🛡️ Sistema de roles y permisos.
 * 🔑 Autenticación mediante sesiones.
-* 🔒 Contraseñas protegidas mediante `bcrypt`.
+* 🔒 Protección de contraseñas mediante `bcrypt`.
 * 🖼️ Carga y gestión de imágenes de perfil.
-* 🗄️ Persistencia de información mediante MySQL.
-* 📄 Generación de archivos PDF.
+* 🗄️ Persistencia de datos mediante MySQL.
+* 📄 Generación de documentos PDF.
 * 📊 Exportación de información a CSV.
 * 📥 Importación y procesamiento de archivos CSV.
 * 💬 Mensajes temporales mediante `connect-flash`.
 
 ---
 
-# 🚀 Tecnologías utilizadas
+## 🚀 Tecnologías
 
-| Tecnología             | Uso                     |
-| ---------------------- | ----------------------- |
-| 🟢 **Node.js**         | Entorno de ejecución    |
-| 🚂 **Express.js**      | Framework del servidor  |
-| 🗄️ **MySQL**          | Base de datos           |
-| 🔄 **Sequelize**       | ORM para MySQL          |
-| 🎨 **EJS**             | Motor de plantillas     |
-| 🔐 **bcrypt**          | Hash de contraseñas     |
-| 🍪 **express-session** | Gestión de sesiones     |
-| 💬 **connect-flash**   | Mensajes temporales     |
-| 📤 **Multer**          | Carga de archivos       |
-| 📄 **PDFKit**          | Generación de PDF       |
-| 📊 **json2csv**        | Exportación a CSV       |
-| 📥 **csv-parser**      | Lectura de archivos CSV |
+| Tecnología             | Descripción                               |
+| ---------------------- | ----------------------------------------- |
+| 🟢 **Node.js**         | Entorno de ejecución para JavaScript      |
+| 🚂 **Express.js**      | Framework para el desarrollo del servidor |
+| 🗄️ **MySQL**          | Sistema de gestión de bases de datos      |
+| 🔄 **Sequelize**       | ORM para trabajar con MySQL               |
+| 🎨 **EJS**             | Motor de plantillas para las vistas       |
+| 🔐 **bcrypt**          | Hash seguro de contraseñas                |
+| 🍪 **express-session** | Gestión de sesiones                       |
+| 💬 **connect-flash**   | Mensajes temporales                       |
+| 📤 **Multer**          | Gestión de carga de archivos              |
+| 📄 **PDFKit**          | Generación de documentos PDF              |
+| 📊 **json2csv**        | Exportación de datos a CSV                |
+| 📥 **csv-parser**      | Lectura y procesamiento de archivos CSV   |
 
 ---
 
-# 🧩 Arquitectura del proyecto
+## 🧩 Estructura del proyecto
 
 ```text
 LOGIN-SYSTEM/
@@ -94,15 +94,15 @@ LOGIN-SYSTEM/
 ├── app.js
 ├── package.json
 ├── package-lock.json
-├── readme.md
+├── README.md
 └── .gitignore
 ```
 
-> `node_modules/` no se incluye en el repositorio porque las dependencias pueden instalarse automáticamente mediante `npm install`.
+> **Nota:** `node_modules/` no se incluye en el repositorio porque las dependencias pueden instalarse automáticamente mediante `npm install`.
 
 ---
 
-# ⚙️ Requisitos
+## ⚙️ Requisitos
 
 Antes de ejecutar el proyecto debes tener instalado:
 
@@ -111,31 +111,29 @@ Antes de ejecutar el proyecto debes tener instalado:
 * [Git](https://git-scm.com/)
 * Un navegador web moderno.
 
-También se recomienda utilizar **XAMPP** si deseas administrar MySQL mediante phpMyAdmin.
+Se recomienda utilizar **XAMPP** para facilitar la administración de MySQL mediante phpMyAdmin.
 
 ---
 
-# 🗄️ Configuración de la base de datos
+## 🗄️ Configuración de MySQL
 
-## 1. Iniciar MySQL
+### 1. Iniciar MySQL
 
 Si utilizas XAMPP:
 
 1. Abre **XAMPP Control Panel**.
 2. Inicia **MySQL**.
-3. Opcionalmente inicia **Apache** para utilizar phpMyAdmin.
+3. Inicia **Apache** si deseas utilizar phpMyAdmin.
 
----
+### 2. Abrir phpMyAdmin
 
-## 2. Crear la base de datos
+Accede desde:
 
-Puedes acceder a phpMyAdmin desde:
-
-```text
 http://localhost/phpmyadmin/
-```
 
-Después ejecuta:
+### 3. Crear la base de datos
+
+Ejecuta:
 
 ```sql
 CREATE DATABASE login_db;
@@ -145,73 +143,77 @@ La aplicación utilizará esta base de datos para almacenar la información del 
 
 ---
 
-# 📦 Instalación
+## 📦 Instalación
 
-Clona el repositorio:
+### 1. Clonar el repositorio
 
 ```bash
 git clone https://github.com/1050602326/sistema-votaciones.git
 ```
 
-Ingresa al proyecto:
+### 2. Entrar al proyecto
 
 ```bash
 cd sistema-votaciones
 ```
 
-Instala las dependencias:
+### 3. Instalar las dependencias
 
 ```bash
 npm install
 ```
 
-Esto instalará automáticamente las dependencias definidas en `package.json`.
+Este comando instalará automáticamente todas las dependencias definidas en `package.json`.
 
 ---
 
-# 📁 Dependencias principales
+## 📁 Instalación de dependencias manual
 
-Si necesitas instalar manualmente las dependencias, puedes utilizar:
+Si necesitas instalar las dependencias individualmente:
+
+### Dependencias principales
 
 ```bash
 npm install express mysql2 sequelize bcrypt ejs express-session
 ```
 
-Para mensajes temporales:
+### Connect Flash
 
 ```bash
 npm install connect-flash
 ```
 
-Para carga de archivos:
+### Multer
 
 ```bash
 npm install multer
 ```
 
-Para generación de PDF:
+### PDFKit
 
 ```bash
 npm install pdfkit
 ```
 
-Para exportación de CSV:
+### JSON2CSV
 
 ```bash
 npm install json2csv
 ```
 
-Para procesamiento de archivos CSV:
+### CSV Parser
 
 ```bash
 npm install csv-parser
 ```
 
+> Normalmente no es necesario ejecutar estos comandos después de clonar el proyecto. `npm install` es suficiente si `package.json` contiene todas las dependencias.
+
 ---
 
-# ▶️ Ejecutar el proyecto
+## ▶️ Ejecutar la aplicación
 
-Una vez instaladas las dependencias y configurada la base de datos:
+Una vez configurada la base de datos e instaladas las dependencias:
 
 ```bash
 node app.js
@@ -219,13 +221,13 @@ node app.js
 
 El servidor se iniciará utilizando la configuración definida en `app.js`.
 
-Después puedes acceder desde el navegador mediante la dirección indicada por el servidor.
+Después abre en tu navegador la dirección indicada por el servidor.
 
 ---
 
-# 👤 Crear usuario administrador
+## 👤 Crear un usuario administrador
 
-El proyecto incluye scripts para facilitar la creación de usuarios administrativos.
+El proyecto incluye un script para facilitar la creación de usuarios administrativos.
 
 Ejemplo:
 
@@ -233,7 +235,7 @@ Ejemplo:
 node scripts/createUser.js 123456 admin@gmail.com adminUser 25 admin123 admin
 ```
 
-Los parámetros corresponden a:
+### Parámetros
 
 | Parámetro      | Ejemplo           |
 | -------------- | ----------------- |
@@ -248,7 +250,7 @@ Los parámetros corresponden a:
 
 ---
 
-# 🛡️ Crear administrador predeterminado
+## 🛡️ Crear administrador predeterminado
 
 También existe un script para crear un administrador fijo:
 
@@ -256,51 +258,11 @@ También existe un script para crear un administrador fijo:
 node scripts/createAdmin.js
 ```
 
-Este comando ejecuta la lógica definida en el script para registrar el usuario administrador.
+Este comando ejecuta la lógica definida dentro del script para registrar el usuario administrador.
 
 ---
 
-# 📊 Gestión de archivos CSV
-
-El proyecto incorpora herramientas para trabajar con archivos CSV.
-
-### Importar CSV
-
-Se utiliza:
-
-```bash
-npm install csv-parser
-```
-
-`csv-parser` permite leer y procesar información almacenada en archivos CSV.
-
-### Exportar CSV
-
-Se utiliza:
-
-```bash
-npm install json2csv
-```
-
-Esto permite convertir información del sistema a archivos CSV.
-
----
-
-# 📄 Generación de PDF
-
-El sistema utiliza **PDFKit** para generar documentos PDF.
-
-Instalación:
-
-```bash
-npm install pdfkit
-```
-
-Esta funcionalidad permite generar documentos a partir de la información gestionada por la aplicación.
-
----
-
-# 🖼️ Gestión de imágenes
+## 🖼️ Gestión de imágenes
 
 Las imágenes cargadas por los usuarios se almacenan en:
 
@@ -316,13 +278,13 @@ La carpeta contiene una imagen predeterminada:
 uploads/default.jpg
 ```
 
-y las imágenes cargadas por los usuarios.
+También puede contener imágenes cargadas durante el uso de la aplicación.
 
 ---
 
-# 🔐 Seguridad
+## 🔐 Seguridad
 
-El proyecto implementa diferentes mecanismos básicos de seguridad:
+El proyecto implementa diferentes mecanismos básicos de seguridad.
 
 ### Contraseñas
 
@@ -332,7 +294,7 @@ Las contraseñas son procesadas mediante:
 bcrypt
 ```
 
-para evitar almacenarlas directamente como texto plano.
+Esto permite almacenarlas mediante un hash en lugar de guardarlas directamente como texto plano.
 
 ### Sesiones
 
@@ -346,13 +308,53 @@ para mantener las sesiones de los usuarios.
 
 ### Roles
 
-El sistema permite diferenciar usuarios mediante roles, facilitando el control de acceso a determinadas funcionalidades.
+El sistema utiliza roles para diferenciar los tipos de usuario y controlar el acceso a determinadas funcionalidades.
 
 ---
 
-# 🧱 Estructura de la aplicación
+## 📊 Gestión de archivos CSV
 
-La aplicación está organizada siguiendo una separación básica de responsabilidades:
+El proyecto incorpora funcionalidades para trabajar con archivos CSV.
+
+### Importación
+
+Para procesar archivos CSV se utiliza:
+
+```bash
+npm install csv-parser
+```
+
+`csv-parser` permite leer y procesar información almacenada en archivos CSV.
+
+### Exportación
+
+Para generar archivos CSV se utiliza:
+
+```bash
+npm install json2csv
+```
+
+`json2csv` permite convertir información del sistema a archivos CSV.
+
+---
+
+## 📄 Generación de PDF
+
+El sistema utiliza **PDFKit** para generar documentos PDF.
+
+Instalación:
+
+```bash
+npm install pdfkit
+```
+
+Esta funcionalidad permite generar documentos a partir de la información gestionada por la aplicación.
+
+---
+
+## 🏗️ Arquitectura de la aplicación
+
+La aplicación sigue una separación básica de responsabilidades inspirada en el patrón **MVC**.
 
 ### `config/`
 
@@ -360,9 +362,7 @@ Contiene la configuración de servicios externos, principalmente la conexión co
 
 ### `controllers/`
 
-Contiene la lógica principal de la aplicación.
-
-Ejemplos:
+Contiene la lógica de negocio de la aplicación.
 
 ```text
 authController.js
@@ -371,7 +371,7 @@ profileController.js
 
 ### `models/`
 
-Define las entidades utilizadas por Sequelize:
+Contiene los modelos utilizados por Sequelize.
 
 ```text
 User.js
@@ -380,15 +380,31 @@ UserProfile.js
 
 ### `routes/`
 
-Define las rutas HTTP disponibles en la aplicación.
+Contiene las rutas HTTP de la aplicación.
+
+```text
+authRoutes.js
+profileRoutes.js
+```
 
 ### `middlewares/`
 
 Contiene funciones intermedias utilizadas durante el procesamiento de las solicitudes.
 
+```text
+upload.js
+```
+
 ### `views/`
 
-Contiene las interfaces desarrolladas mediante EJS.
+Contiene las interfaces desarrolladas utilizando EJS.
+
+```text
+dashboard.ejs
+login.ejs
+profile.ejs
+register.ejs
+```
 
 ### `public/`
 
@@ -396,17 +412,17 @@ Contiene los recursos estáticos de la aplicación, como archivos CSS.
 
 ### `uploads/`
 
-Almacena los archivos cargados por los usuarios.
+Almacena las imágenes cargadas por los usuarios.
 
 ### `scripts/`
 
-Contiene scripts auxiliares para tareas administrativas, como la creación de usuarios.
+Contiene scripts auxiliares para tareas administrativas.
 
 ---
 
-# 🔄 Actualización de dependencias
+## 🔄 Actualización de dependencias
 
-Para consultar paquetes que tienen versiones nuevas:
+Para consultar las dependencias que tienen nuevas versiones:
 
 ```bash
 npm outdated
@@ -425,19 +441,15 @@ npx npm-check-updates -u
 npm install
 ```
 
-Esto permite actualizar las versiones especificadas en `package.json`.
-
 ---
 
-# 🧪 Flujo básico de instalación
+## 🧪 Instalación rápida
 
-Si estás configurando el proyecto desde cero:
+Para configurar el proyecto desde cero:
 
 ```bash
 git clone https://github.com/1050602326/sistema-votaciones.git
-
 cd sistema-votaciones
-
 npm install
 ```
 
@@ -447,7 +459,7 @@ Crear la base de datos:
 CREATE DATABASE login_db;
 ```
 
-Después ejecutar:
+Ejecutar la aplicación:
 
 ```bash
 node app.js
@@ -455,19 +467,20 @@ node app.js
 
 ---
 
-# 📌 Notas importantes
+## 📌 Notas importantes
 
 * `node_modules/` no debe subirse al repositorio.
 * Las dependencias se restauran mediante `npm install`.
 * La configuración de MySQL debe coincidir con la configuración definida en `config/db.js`.
-* La carpeta `uploads/` puede contener imágenes generadas durante el uso de la aplicación.
-* El proyecto fue desarrollado con fines **académicos y de aprendizaje**.
+* La carpeta `uploads/` almacena las imágenes utilizadas por la aplicación.
+* El proyecto fue desarrollado con fines **académicos y educativos**.
+* La configuración actual está orientada a un entorno local de desarrollo.
 
 ---
 
-# 🎓 Objetivo académico
+## 🎓 Objetivo académico
 
-Este proyecto busca aplicar conocimientos relacionados con:
+Este proyecto busca aplicar y fortalecer conocimientos relacionados con:
 
 * Desarrollo backend.
 * Desarrollo web con Node.js.
@@ -480,12 +493,13 @@ Este proyecto busca aplicar conocimientos relacionados con:
 * Manejo de archivos.
 * Procesamiento de información.
 * Generación de documentos.
-* Exportación e importación de datos.
-* Uso de Git y GitHub.
+* Importación y exportación de datos.
+* Control de versiones con Git.
+* Gestión de proyectos mediante GitHub.
 
 ---
 
-# 🚧 Estado del proyecto
+## 🚧 Estado del proyecto
 
 🟢 **Proyecto funcional / académico**
 
@@ -493,9 +507,7 @@ El sistema se encuentra en desarrollo como proyecto universitario y puede recibi
 
 ---
 
-# 🔮 Posibles mejoras futuras
-
-Algunas funcionalidades que pueden incorporarse posteriormente:
+## 🔮 Mejoras futuras
 
 * [ ] Panel administrativo avanzado.
 * [ ] Gestión completa de candidatos.
@@ -506,7 +518,7 @@ Algunas funcionalidades que pueden incorporarse posteriormente:
 * [ ] Recuperación de contraseña.
 * [ ] Validaciones avanzadas.
 * [ ] Mejoras de seguridad.
-* [ ] Variables de entorno mediante `.env`.
+* [ ] Uso de variables de entorno mediante `.env`.
 * [ ] Despliegue en un servidor.
 * [ ] Documentación de API.
 * [ ] Pruebas automatizadas.
@@ -514,9 +526,9 @@ Algunas funcionalidades que pueden incorporarse posteriormente:
 
 ---
 
-# 👨‍💻 Autor
+## 👨‍💻 Autor
 
-**Felipe Arias**
+### Felipe Arias
 
 Proyecto académico desarrollado para fortalecer conocimientos en:
 
@@ -534,8 +546,8 @@ Desarrollo Web
 
 ---
 
-# 📄 Licencia
+## 📄 Licencia
 
 Este proyecto fue desarrollado con fines académicos y educativos.
 
-Puedes utilizar el código como referencia para aprendizaje y prácticas de desarrollo de software.
+El código puede utilizarse como referencia para aprendizaje y prácticas de desarrollo de software.
