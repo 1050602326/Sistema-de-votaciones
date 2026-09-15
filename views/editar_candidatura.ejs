@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Editar Candidatura</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+<div class="container mt-5">
+  <div class="card shadow-sm">
+    <div class="card-body">
+      <h2 class="mb-2">Editar Propuesta de <%= candidatura.User.username %></h2>
+      <h5 class="text-muted mb-1">Elección: <strong><%= candidatura.Eleccion.nombre %></strong></h5>
+      <%
+      const opcionesFecha = { year: 'numeric', month: 'long', day: 'numeric' };
+      const opcionesHora = { hour: 'numeric', minute: '2-digit', hour12: true };
+      const fechaInicio = new Date(candidatura.Eleccion.fecha_inicio);
+      const fechaFin = new Date(candidatura.Eleccion.fecha_fin);
+    %>
+    
+    <div class="card bg-light border mb-4">
+      <div class="card-body">
+        <h5 class="card-title text-primary mb-2">📌 Información de la Elección</h5>
+        <p class="mb-1">
+          🗳️ <strong>
+            <a href="/elecciones/<%= candidatura.eleccionId %>/candidatos" class="text-decoration-none text-dark">
+              <%= candidatura.Eleccion.nombre %>
+            </a>
+          </strong>
+        </p>
+        <p class="mb-1">🗓️ <strong>Inicio:</strong> <%= fechaInicio.toLocaleDateString('es-CO', opcionesFecha) %> – 
+          <%= fechaInicio.toLocaleTimeString('es-CO', opcionesHora) %></p>
+        <p class="mb-0">🗓️ <strong>Fin:</strong> <%= fechaFin.toLocaleDateString('es-CO', opcionesFecha) %> – 
+          <%= fechaFin.toLocaleTimeString('es-CO', opcionesHora) %></p>
+      </div>
+    </div>
+    
+    
+
+      <% if (alert) { %>
+        <div class="alert <%= alertClass %> alert-dismissible fade show" role="alert">
+          <%= alert %>
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+        </div>
+      <% } %>
+
+      <% if (candidatura.User && candidatura.User.UserProfile) { 
+        const foto = candidatura.User.UserProfile.profile_picture || 'default.jpg'; 
+      %>
+        <div class="text-center mb-4">
+          <img src="/uploads/<%= foto %>" alt="Foto de perfil" width="100" height="100" class="rounded-circle shadow border mb-2" style="object-fit: cover;">
+          <h5><%= candidatura.User.UserProfile.nombres %> <%= candidatura.User.UserProfile.apellidos %></h5>
+          <p class="text-muted">@<%= candidatura.User.username %></p>
+        </div>
+      <% } %>
+
+      <form method="POST" action="/candidaturas/editar/<%= candidatura.id %>">
+        <div class="mb-3">
+          <label class="form-label">Propuesta</label>
+          <textarea name="propuesta" class="form-control" rows="5" required><%= candidatura.propuesta %></textarea>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+        <a href="/elecciones/<%= candidatura.eleccionId %>/candidatos" class="btn btn-secondary ms-2">Cancelar</a>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script>
+  setTimeout(() => {
+    const alert = document.querySelector('.alert');
+    if (alert) {
+      alert.classList.remove('show');
+      alert.classList.add('fade');
+      setTimeout(() => alert.remove(), 500);
+    }
+  }, 2000);
+</script>
+
+</body>
+</html>

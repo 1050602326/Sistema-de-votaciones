@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Crear Elección</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body class="bg-light">
+
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#">Panel de Control - Sistema de Votación FIS - USTA</a>
+        <div class="collapse navbar-collapse">
+          <ul class="navbar-nav ms-auto">
+                        <li class="icono-inicio">
+                <a href="/" title="Inicio">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-house-door" viewBox="0 0 16 16">
+                    <path d="M8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4.5a.5.5 0 0 0 .5-.5v-4h2v4a.5.5 0 0 0 .5.5H14a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293zM2.5 14V7.707l5.5-5.5 5.5 5.5V14H10v-4a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5v4z"/>
+                  </svg>
+                  <span>Inicio</span>
+                </a>
+              </li>
+             <li class="icono-nameUser">
+              <a href="/miPerfil" class="nav-link text-warning d-flex align-items-center">
+                <svg class="icon-user" xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 16 16" width="30" height="30" fill="currentColor">
+                  <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z"/>
+                </svg>
+                <span class="ms-1">Bienvenido, <strong><%= user.username %></strong></span>
+              </a>
+            </li>
+            <li class="icono-cerrar-sesion">
+              <a class="nav-link text-white"
+                href="/logout">Cerrar Sesión</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+<div class="container mt-5">
+  <div class="card shadow">
+    <div class="card-body">
+      <h2 class="mb-4">Nueva Elección</h2>
+
+      <% if (alert) { %>
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+          <%= alert %>
+          <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+      <% } %>
+
+      <form method="POST" action="/elecciones/crear">
+        <div class="mb-3">
+          <label class="form-label">Nombre</label>
+          <input type="text" name="nombre" class="form-control" required>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Descripción</label>
+          <textarea name="descripcion" class="form-control" rows="3"></textarea>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Tipo de Representación</label>
+          <select name="tipo_representacion" class="form-select" required>
+            <option value="" disabled selected>-- Selecciona --</option>
+            <option value="facultad">Facultad</option>
+            <option value="semestre">Semestre</option>
+            <option value="comite">Comité</option>
+          </select>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Fecha de Inicio</label>
+          <input type="datetime-local" name="fecha_inicio" class="form-control" required>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Fecha de Fin</label>
+          <input type="datetime-local" name="fecha_fin" class="form-control" required>
+        </div>
+
+        <button type="submit" class="btn btn-success">Crear Elección</button>
+        <a href="/dashboard" class="btn btn-outline-secondary ms-2">← Volver</a>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

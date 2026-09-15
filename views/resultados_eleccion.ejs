@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Resultados de <%= eleccion.nombre %></title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/style.css">
+  <style>
+    body {
+      background-color: #ffffff;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    h2 {
+      font-weight: 600;
+      text-align: center;
+    }
+
+    .table {
+      box-shadow: 0 0 10px rgba(0,0,0,0.05);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    .chart-container {
+  width: 100%;
+  height: 400px;
+  padding: 1rem;
+  background: #f9f9f9;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+  animation: fadeIn 1.2s ease-in-out;
+}
+.chart-container:hover {
+  transform: scale(1.02);
+  transition: transform 0.3s ease-in-out;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+}
+
+
+
+    canvas {
+      width: 100% !important;
+      height: 100% !important;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.97); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    .btn-outline-secondary {
+      display: block;
+      margin: 2rem auto 0;
+      max-width: 250px;
+    }
+
+    .badge-medal {
+      font-size: 1.2rem;
+    }
+
+    #googlePieChart {
+      width: 100%;
+      height: 100%;
+    }
+  </style>
+</head>
+<body>
+
+  
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#">Panel de Control - Sistema de Votación FIS - USTA</a>
+        <div class="collapse navbar-collapse">
+          <ul class="navbar-nav ms-auto">
+                        <li class="icono-inicio">
+                <a href="/" title="Inicio">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-house-door" viewBox="0 0 16 16">
+                    <path d="M8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4.5a.5.5 0 0 0 .5-.5v-4h2v4a.5.5 0 0 0 .5.5H14a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293zM2.5 14V7.707l5.5-5.5 5.5 5.5V14H10v-4a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5v4z"/>
+                  </svg>
+                  <span>Inicio</span>
+                </a>
+              </li>
+             <li class="icono-nameUser">
+              <a href="/miPerfil" class="nav-link text-warning d-flex align-items-center">
+                <svg class="icon-user" xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 16 16" width="30" height="30" fill="currentColor">
+                  <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z"/>
+                </svg>
+                <span class="ms-1">Bienvenido, <strong><%= user.username %></strong></span>
+              </a>
+            </li>
+            <li class="icono-cerrar-sesion">
+              <a class="nav-link text-white"
+                href="/logout">Cerrar Sesión</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  <div class="container mt-5">
+    <h2 class="mb-4">Resultados de: <%= eleccion.nombre %></h2>
+
+<% if (eleccion.estado === 'programada') { %>
+  <div class="alert alert-secondary text-center fw-semibold" role="alert">
+    🕒 Esta elección está programada - aún no ha comenzado o está en pausa.
+  </div>
+<% } else if (eleccion.estado === 'activa') { %>
+  <div class="alert alert-warning text-center fw-semibold" role="alert">
+    ℹ️ Esta elección aún no ha finalizado. Los resultados pueden cambiar.
+  </div>
+<% } else if (eleccion.estado === 'finalizada') { %>
+  <div class="alert alert-success text-center fw-semibold" role="alert">
+    ✅ Esta elección ha finalizado. Los resultados son definitivos.
+  </div>
+<% } %>
+
+
+    <% if (resultados.length === 0) { %>
+      <div class="alert alert-info text-center">No hay candidatos registrados para esta elección.</div>
+    <% } else { 
+      const maxVotos = Math.max(...resultados.map(c => c.Votos.length));
+    %>
+      <div class="table-responsive">
+        <table class="table table-bordered align-middle text-center">
+          <thead class="table-light">
+            <tr>
+              <th>Candidato</th>
+              <th>Propuesta</th>
+              <th>Votos</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% resultados.forEach(c => { %>
+              <tr class="<%= c.Votos.length === maxVotos && maxVotos > 0 ? 'table-success' : '' %>">
+                <td><%= c.User?.UserProfile?.name %> <%= c.User?.UserProfile?.lastName %> (@<%= c.User?.username %>)</td>
+                <td><%= c.propuesta %></td>
+                <td>
+                  <strong><%= c.Votos.length %></strong>
+                  <% if (c.Votos.length === maxVotos && maxVotos > 0) { %>
+                    <span class="badge-medal">🥇</span>
+                  <% } %>
+                </td>
+              </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      </div>
+
+<div class="row mt-5">
+  <div class="col-md-6 mb-4">
+    <div class="chart-container">
+      <h5 class="text-center mb-3">Gráfico de Barras (Chart.js)</h5>
+      <canvas id="votosChart"></canvas>
+    </div>
+  </div>
+  <div class="col-md-6 mb-4">
+    <div class="chart-container">
+      <h5 class="text-center mb-3">Gráfico Circular (Google Charts)</h5>
+      <div id="googlePieChart" style="width: 100%; height: 100%;"></div>
+    </div>
+  </div>
+</div>
+
+
+      
+
+      <p class="text-muted text-center">* El candidato resaltado en verde es quien obtuvo más votos.</p>
+    <% } %>
+
+    <a href="/resultados" class="btn btn-outline-secondary">← Volver a resultados</a>
+    <a href="/resultados/<%= eleccion.id %>/pdf" class="btn btn-outline-danger ms-2">📄 Descargar PDF</a>
+    <a href="/resultados/<%= eleccion.id %>/csv" class="btn btn-outline-success">📥 Exportar CSV</a>
+
+
+  </div>
+
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- Google Charts -->
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+  <% if (resultados.length > 0) { %>
+  <script id="datosVotos" type="application/json">
+    {
+      "labels": <%- JSON.stringify(resultados.map(c => 
+        `${c.User?.UserProfile?.nombres || ''} ${c.User?.UserProfile?.apellidos || ''} (@${c.User?.username})`
+      )) %>,
+      "data": <%- JSON.stringify(resultados.map(c => c.Votos.length)) %>
+    }
+  </script>
+
+  <script>
+    const ctx = document.getElementById('votosChart').getContext('2d');
+    const { labels, data } = JSON.parse(document.getElementById('datosVotos').textContent);
+
+    // Chart.js Bar Chart
+    new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: labels,
+        datasets: [{
+          label: 'Cantidad de Votos',
+          data: data,
+          backgroundColor: 'rgba(0, 123, 255, 0.5)',
+          borderColor: 'rgba(0, 123, 255, 1)',
+          borderWidth: 1,
+          borderRadius: 6
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            callbacks: {
+              label: function(context) {
+                return `Votos: ${context.raw}`;
+              }
+            }
+          }
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            precision: 0
+          }
+        }
+      }
+    });
+
+    // Google Charts Pie Chart (donut)
+    google.charts.load('current', {
+      packages: ['corechart'],
+      callback: drawGooglePieChart
+    });
+
+    function drawGooglePieChart() {
+      const dataTable = new google.visualization.DataTable();
+      dataTable.addColumn('string', 'Candidato');
+      dataTable.addColumn('number', 'Votos');
+
+      labels.forEach((label, i) => {
+        dataTable.addRow([label, data[i]]);
+      });
+
+      const options = {
+        pieHole: 0.5,
+        pieSliceText: 'percentage',
+        tooltip: { text: 'value' },
+        legend: { position: 'bottom', textStyle: { fontSize: 12 } },
+        colors: ['#007bff', '#dc3545', '#ffc107', '#28a745', '#6f42c1', '#17a2b8', '#fd7e14'],
+        chartArea: { width: '90%', height: '80%' },
+        animation: {
+          startup: true,
+          duration: 1000,
+          easing: 'out'
+        }
+      };
+
+      const chart = new google.visualization.PieChart(document.getElementById('googlePieChart'));
+      chart.draw(dataTable, options);
+    }
+  </script>
+  <% } %>
+
+</body>
+</html>

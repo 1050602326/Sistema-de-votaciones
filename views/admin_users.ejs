@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Gestión de Usuarios</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body class="bg-light">
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="/dashboard">Panel de Admin</a>
+    <div class="collapse navbar-collapse">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <span class="nav-link text-warning">Usuario: <strong><%= currentUser.username %></strong></span>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link btn btn-warning text-white ms-2" href="/logout">Cerrar Sesión</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="container mt-4">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h2 class="mb-0">Gestión de Usuarios</h2>
+    <div class="d-flex gap-2">
+      <a href="/dashboard" class="btn btn-outline-secondary">← Volver al Dashboard</a>
+      <a href="/register" class="btn btn-success">➕ Crear Usuario</a>
+
+
+    </div>
+  </div>
+
+  <form class="d-flex gap-2 mb-3" method="GET" action="/admin/users">
+    <input type="text" class="form-control" name="busqueda" placeholder="Buscar por usuario o identificación" value="<%= busqueda || '' %>">
+    
+    <select class="form-select" name="rol">
+      <option value="">-- Filtrar por rol --</option>
+      <option value="admin" <%= rol === 'admin' ? 'selected' : '' %>>Admin</option>
+      <option value="administrativo" <%= rol === 'administrativo' ? 'selected' : '' %>>Administrativo</option>
+      <option value="candidato" <%= rol === 'candidato' ? 'selected' : '' %>>Candidato</option>
+      <option value="votante" <%= rol === 'votante' ? 'selected' : '' %>>Votante</option>
+    </select>
+
+    <button class="btn btn-primary" type="submit">Buscar</button>
+    <a href="/admin/users" class="btn btn-secondary">Limpiar</a>
+  </form>
+
+  <% if (alert) { %>
+    <div id="alerta" class="alert alert-warning alert-dismissible fade show" role="alert">
+      <%= alert %>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+    </div>
+  <% } %>
+  
+  
+
+  <table class="table table-bordered table-hover bg-white shadow-sm">
+    <thead class="table-dark">
+      <tr>
+        <th>ID</th>
+        <th>Identificación</th>
+        <th>Correo Electrónico</th>
+        <th>Usuario</th>
+        <th>Edad</th>
+        <th>Rol</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% users.forEach(user => { %>
+        <tr>
+          <td><%= user.id %></td>
+          <td><%= user.identificacion %></td>
+          <td><%= user.correo %></td>
+          <td><%= user.username %></td>
+          <td><%= user.edad %></td>
+          <td><%= user.role %></td>
+          
+          <td>
+            <a href="/admin/users/edit/<%= user.id %>" class="btn btn-sm btn-primary">Editar</a>
+            <a href="/admin/users/password/<%= user.id %>" class="btn btn-sm btn-warning">Editar Contraseña</a>
+
+            <% if (user.id === currentUser.id || user.role === 'admin') { %>
+              <button 
+                type="button" 
+                class="btn btn-sm btn-secondary" 
+                data-bs-toggle="modal" 
+                data-bs-target="#modalNoEliminar"
+                title="<%= user.id === currentUser.id ? 'No puedes eliminarte a ti mismo' : 'No puedes eliminar a otros administradores' %>">
+                🔒
+              </button>
+            <% } else { %>
+              <form action="/admin/users/delete/<%= user.id %>" method="POST" style="display:inline;">
+                <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('¿Eliminar este usuario?');">Eliminar</button>
+              </form>
+            <% } %>
+          </td>
+        </tr>
+      <% }) %>
+    </tbody>
+  </table>
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- Auto cerrar alerta -->
+<script>
+  setTimeout(() => {
+    const alerta = document.getElementById('alerta');
+    if (alerta) {
+      alerta.classList.add('fade-out');
+      setTimeout(() => {
+        const alertaBootstrap = bootstrap.Alert.getOrCreateInstance(alerta);
+        alertaBootstrap.close();
+      }, 500);
+    }
+  }, 2000);
+</script>
+
+<!-- Modal para advertencia -->
+<div class="modal fade" id="modalNoEliminar" tabindex="-1" aria-labelledby="modalNoEliminarLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header bg-warning text-dark">
+        <h5 class="modal-title" id="modalNoEliminarLabel">Acción no permitida</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
+      <div class="modal-body">
+        ⚠️ No puedes eliminar tu propia cuenta de administrador por motivos de seguridad.
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Entendido</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const modalNoEliminar = document.getElementById('modalNoEliminar');
+  modalNoEliminar.addEventListener('show.bs.modal', event => {
+    const triggerBtn = event.relatedTarget;
+    const tooltip = triggerBtn.getAttribute('title');
+    modalNoEliminar.querySelector('.modal-body').textContent = `⚠️ ${tooltip}.`;
+  });
+</script>
+
+
+
+
+<!-- Modal de resultado CSV -->
+<div class="modal fade" id="resultadoCsvModal" tabindex="-1" aria-labelledby="resultadoCsvLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header bg-info text-white">
+        <h5 class="modal-title" id="resultadoCsvLabel">Resumen de Importación CSV</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
+      <div class="modal-body">
+        <% if (alert) { %>
+          <div><%- alert %></div>
+        <% } else { %>
+          <p>Sin mensajes.</p>
+        <% } %>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Mostrar modal si hay mensaje flash -->
+<% if (alert) { %>
+  <script>
+    window.addEventListener('DOMContentLoaded', () => {
+      const modal = new bootstrap.Modal(document.getElementById('resultadoCsvModal'));
+      modal.show();
+    });
+  </script>
+<% } %>
+
+
+
+
+
+</body>
+</html>
